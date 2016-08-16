@@ -1,0 +1,122 @@
+digraph tree
+{
+    nodesep=0.5;
+    charset="UTF-8";
+    //rankdir=LR;
+    fixedsize=true;
+    compound=true;
+    node [style="rounded,filled", width=0, height=0, shape=box, fillcolor="#E5E5E5", concentrate=true]
+
+    subgraph cluster_0 {
+        label = "数学基础";
+        calculus[label = "微积分", fillcolor = "yellow"]
+        linalg[label = "线性代数", fillcolor = "yellow"]
+    }
+
+    subgraph cluster_1 {
+        label = "基本编程语言";
+        clang[label = "C语言", fillcolor = "yellow"]
+        flang[label = "Fortran"]
+        cpplang[label = "C++", fillcolor = "lightblue"]
+
+        clang -> cpplang
+    }
+
+    subgraph cluster_2 {
+        label = "物理基础";
+        analy_mec[label = "分析力学", fillcolor = "lightblue"]
+        elect_mec[label = "电动力学", fillcolor = "yellow"]
+        quant_mec[label = "量子力学", fillcolor = "yellow"]
+        stati_mec[label = "统计力学"]
+
+        linalg -> analy_mec
+        analy_mec -> quant_mec
+        elect_mec -> quant_mec
+        quant_mec -> stati_mec
+    }
+
+    subgraph cluster_3 {
+        complex[label = "复变函数", fillcolor = "yellow"]
+        statistics[label = "数理统计", fillcolor = "lightblue"]
+        equation[label = "数理方程", fillcolor = "yellow"]
+
+        calculus -> complex
+        complex -> statistics
+        complex -> equation
+        equation -> elect_mec
+        statistics -> stati_mec
+        equation -> analy_mec
+    }
+    subgraph cluster_4 { 
+        label = "数学进阶"
+        absalg[label = "抽象代数", fillcolor = "lightblue"]
+        group[label = "群论"]
+        num_ana[label = "数值分析"]
+        mat_com[label = "矩阵计算方法", fillcolor = "lightblue"]
+        
+        linalg -> absalg
+        absalg -> group
+        linalg -> num_ana[ltail = cluster_0]
+        num_ana -> mat_com
+        flang -> num_ana[ltail = cluster_1]
+    }
+    subgraph cluster_5 {
+        label = "linux"
+        vim[label = "VIM", fillcolor = "yellow"]
+        bash[label = "bash", fillcolor = "yellow"]
+        git[label = "git版本控制", fillcolor = "yellow"]
+        latex[label = "LaTeX科学写作", fillcolor = "yellow"]
+        markdown[label = "Markdown日志写作", fillcolor = "yellow"]
+    }
+    subgraph cluster_6 {
+        label = "计算机基础"
+        data_algo[label = "数据结构与算法"]
+        os[label = "操作系统"]
+        database[label = "数据库"]
+
+        clang -> data_algo[ltail = cluster_1,lhead = cluster_6]
+    }
+    subgraph cluster_7 {
+        label = "网络技术"
+        net_basic[label = "网络技术基础", fillcolor = "yellow"]
+        tcp_ip[label = "TCP/IP"]
+        html_css[label = "HTML & CSS"]
+        php_mysql[label = "PHP & MySQL"]
+        js[label = "JavaScript"]
+
+        database -> php_mysql
+    } 
+    subgraph cluster_8 {
+        label = "物理进阶"
+        adv_quant_mec[label = "高等量子力学"]
+        con_pha[label =" 固体物理学"]
+
+        stati_mec -> adv_quant_mec
+        group -> adv_quant_mec
+        stati_mec -> con_pha
+    }
+    subgraph cluster_9 {
+        label = "Python应用"
+        py_calc[label = "Python科学计算", fillcolor = "lightblue"]
+        py_web[label = "Python网络应用"]
+
+        cpplang -> py_calc[ltail = cluster_1]
+        tcp_ip -> py_web[ltail = cluster_7]
+    }
+    subgraph cluster_10 {
+        label = "计算化学基础"
+        HF[label = "HF-SCF", fillcolor = "lightblue"]
+        CI[label = "CI", fillcolor = "lightblue"]
+        CC[label = "CC"]
+        PT[label = "PT"]
+        DFT[label = "DFT"]
+
+        adv_quant_mec -> HF[ltail = cluster_8, lhead = cluster_10]
+        HF -> CI
+        HF -> CC
+        HF -> PT
+        HF -> DFT
+        mat_com -> CI
+        py_calc -> HF[lhead = cluster_10]
+    }
+}
